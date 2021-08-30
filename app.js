@@ -10,9 +10,10 @@ var redis = require('./public/javascripts/redis');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var privateTransferRouter = require('./routes/privateTransfer')
+var privateTransferRouter = require('./routes/privateTransfer');
 var redisRouter = require('./routes/redis');
-var imageRouter = require('./routes/image')
+var imageRouter = require('./routes/image');
+var tpcAndAddressRouter = require('./routes/tpcAndAddress');
 
 
 var app = express();
@@ -42,6 +43,7 @@ app.use('/users', usersRouter);
 app.use('/privateTransfer',privateTransferRouter)
 app.use('/redis',redisRouter)
 app.use('/image',imageRouter)
+app.use('/tpcAndAddress',tpcAndAddressRouter)
 
 
 // catch 404 and forward to error handler

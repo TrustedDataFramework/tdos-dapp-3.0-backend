@@ -1,9 +1,9 @@
 var redis = require('./redis');
 
 
-async function addTpcByAddress(address,tpcId,tpcHash){
+async function addTpcByAddress(address,tpcId,tpcHash,type){
     let data = await redis.get(address);
-    const tpc_new = {"tpcId": tpcId,"tpcHash": tpcHash};
+    const tpc_new = {"tpcId": tpcId,"tpcHash": tpcHash,"type":type};
     if(data == "" || data == null) {
         let ret = [];
         ret.push(tpc_new)
@@ -27,6 +27,20 @@ async function selectTpcByAddress(address) {
     }
 }
 
+async function selectTpcHashByTpc(address,tpcId) {
+    let data = await redis.get(address);
+    if(data == "" || data == null) {
+        return "";
+    }else {
+        for(let i =0; i<data.length;i++){
+            let tpc_id = data[i].tpcId;
+            if(tpc_id == tpcId){
+                return data[i];
+            }
+        }
+    }
+}
+
 async function deleteTpcByAddress(address,tpcId){
     let data = await redis.get(address);
     if(data == "" || data == null) {
@@ -46,5 +60,6 @@ async function deleteTpcByAddress(address,tpcId){
 module.exports={
     deleteTpcByAddress:deleteTpcByAddress,
     selectTpcByAddress:selectTpcByAddress,
-    addTpcByAddress:addTpcByAddress
+    addTpcByAddress:addTpcByAddress,
+    selectTpcHashByTpc:selectTpcHashByTpc
 };

@@ -6,7 +6,7 @@ var tpcAndAddress = require('../public/javascripts/tpcAndAddress');
 
 router.post('/addTpcByAddress',async (req,res)=>{
     let body = req.body;
-    let data = await tpcAndAddress.addTpcByAddress(body.address, body.tpcId,body.tpcHash);
+    let data = await tpcAndAddress.addTpcByAddress(body.address, body.tpcId,body.tpcHash,body.type);
     if (data == ""){
         res.json(result.Error("失败","address is not exist"));
     }else{
@@ -27,6 +27,16 @@ router.post('/deleteTpcByAddress',async (req,res)=>{
 router.get('/selectTpcByAddress',async (req,res)=>{
     let body = req.query;
     let data = await tpcAndAddress.selectTpcByAddress(body.address);
+    if (data == ""){
+        res.json(result.Error("失败","address is not exist"));
+    }else{
+        res.json(result.Success("成功",data));
+    }
+});
+
+router.get('/selectTpcHashByTpc',async (req,res)=>{
+    let body = req.query;
+    let data = await tpcAndAddress.selectTpcHashByTpc(body.address,body.tpcId);
     if (data == ""){
         res.json(result.Error("失败","address is not exist"));
     }else{

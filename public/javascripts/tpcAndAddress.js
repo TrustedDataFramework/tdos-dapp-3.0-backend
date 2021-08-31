@@ -27,28 +27,31 @@ async function selectTpcByAddress(address) {
     }
 }
 
-async function selectTpcHashByTpc(address,tpcId) {
+async function selectTpcHashByTpc(address,tpcId,type) {
     let data = await redis.get(address);
     if(data == "" || data == null) {
         return "";
     }else {
         for(let i =0; i<data.length;i++){
             let tpc_id = data[i].tpcId;
-            if(tpc_id == tpcId){
+            let type_h = data[i].type;
+            if(tpc_id == tpcId && type_h == type){
                 return data[i];
             }
         }
+        return "";
     }
 }
 
-async function deleteTpcByAddress(address,tpcId){
+async function deleteTpcByAddress(address,tpcId,type){
     let data = await redis.get(address);
     if(data == "" || data == null) {
         return "";
     }else{
         for(let i =0; i<data.length;i++){
             let tpc_id = data[i].tpcId;
-            if(tpc_id == tpcId){
+            let type_h = data[i].type;
+            if(tpc_id == tpcId && type_h == type){
                 data.splice(i, 1);
             }
         }
